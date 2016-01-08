@@ -1,0 +1,51 @@
+<!--<div ng-controller="Comments_ctrl" ng-init="champ_2='p'"> -->
+
+		
+		<a href="#/">  Back to articles </a>
+		<br><br>
+
+		<input type="text"ng-model="field" ng-init="field=''"/>
+		<select ng-model="order">
+			<option value="username">par nom</option>
+			<option value="content">par contenu</option>
+		</select>
+
+		
+		<div>			
+			<br><br>
+			<h2 class="title"> {{ title }} </h2>
+			<br>
+			<div class="bloc_interface_comments">
+			
+				<div ng-repeat= "comment in comments | orderBy:order | filter:{username:field}"> 	
+					<p>
+						<strong class="username_textFormated"> {{comment.username}}</strong>
+						<br>
+						{{comment.content}}
+					</p>
+				</div>
+			</div>
+
+
+			<br><br>
+			<div>
+				<h2 class="title"> Form </h2>
+				<form ng-submit="addComments()">
+					<label>Username  : </label>
+					<input type="text" placeholder="username" ng-model="newComment.username"/><br>
+
+					<label>City : </label>
+					<input type="text" placeholder="city" ng-model="newComment.city"/><br>
+
+					<label>Mail : </label>
+					<input type="text" placeholder="email" ng-model="newComment.email"/><br>
+
+					<label>Comment : </label>
+					<textarea ng-model="newComment.content"></textarea><br>
+
+					<input type="submit" value="send">
+
+				</form>
+			</div>
+
+		</div>

@@ -1,0 +1,39 @@
+<html>
+<head>
+    <title> test </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script src="http://documentcloud.github.io/underscore/underscore-min.js"></script>
+    <script src="http://backbonejs.org/backbone-min.js"></script>
+</head>
+<body>
+<span id='result1'></span>
+<br/>
+<span id='result2'></span>
+
+
+<script>
+
+    // Model
+    var Voiture = Backbone.Model.extend({});
+
+    // Init model
+    var voiture = new Voiture({
+        marque : 'Ford'     // Attribut
+    });
+
+    var value = voiture.get('marque');
+    console.log(value);
+
+    var Voitures = Backbone.Model.extend({});
+    var voitures = new Voitures(
+            [{
+                marque:'ford'
+            },{
+                marque:'renault'
+            }]
+    );
+
+
+</script>
+</body>
+</html>

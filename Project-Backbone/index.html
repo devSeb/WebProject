@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Backbone</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--V 3.0.1 ...-->
+    <link href="libs/vendors/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="libs/vendors/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
+
+    <style>
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-header">
+        <div class="container">
+            <a class="navbar-brand">Mon Blog</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="jumbotron">
+        <h1>Backbone rocks !!!</h1>
+    </div>
+
+    <!-- ìci notre template -->
+    <script type="text/template" id="articles-collection-template">
+        <% _.each(articles, function(article) { %>
+        <h1><%= article.title %></h1>
+        <h6><%= article.publicationDate %></h6>
+        <p><%= article.content %></p>
+        <% }); %>
+    </script>
+    <!-- les données seront affichées ici -->
+    <div id="articles-collection-container"></div>
+
+    <div id="calcule">
+
+    </div>
+
+</div>
+
+</body>
+<!-- === Références aux Frameworks === -->
+<script src="libs/vendors/jquery.js"></script><!--V 1.10.2 -->
+<script src="libs/vendors/underscore.js"></script><!--V 1.5.2 -->
+<script src="libs/vendors/backbone.js"></script><!--V 1.1.0 -->
+
+<script>
+
+    $(function (){
+
+        var Kind = function() {};
+        Kind.extend = Backbone.Model.extend;
+
+        var Personne = Kind.extend({
+            constructor : function(prenom, nom )
+            {
+                console.log("constructor");
+                this.prenom = "john";
+                this.nom = "doe";
+                if ( prenom != null ){
+                    this.prenom = prenom;
+                }
+                if ( nom != null ){
+                    this.nom = nom;
+                }
+                console.log("hello", this.prenom, this.nom);
+                // increment static value
+                Personne.compteur += 1;
+            },
+            getNom : function() {
+                return this.nom;
+            },
+            getPrenom : function() {
+                return this.prenom;
+            }
+        },{ // Static
+            compteur: 0,
+            combien : function(){
+            return Personne.compteur;
+            }
+        });
+
+
+        var bob = new Personne();
+        console.log("method = "+  bob.getNom() );
+        var job = new Personne("seb","sebou");
+        console.log("method = "+  bob.getPrenom() );
+        console.log( "il y a "+ Personne.combien() +" personnes");
+    });
+
+
+    $(function (){
+
+
+        //permettra d'accéder à nos variables en mode console
+       window.blog = {};
+
+
+
+        /*--- Modèle article ---*/
+
+        blog.Article = Backbone.Model.extend({
+
+            //les valeurs par défaut d'un article
+            defaults: {
+                title: "titre de l'article",
+                content: "contenu de l'article",
+            },
+            // s'exécute à la création d'un article
+            initialize: function() {
+                this.set("publicationDate", new Date() );
+                console.log("Création d'un nouvel article")
+            }
+        });
+
+        blog.ArticlesCollection = Backbone.Collection.extend({
+            model : blog.Article,
+            initialize : function(){
+                console.log("Création d'une collection d'articles");
+            }
+        });
+
+
+        /*--- Vues ---*/
+        blog.ArticlesView = Backbone.View.extend({
+            // Define the div
+            el: $("#articles-collection-container"),
+
+            // define the template
+            initialize: function() {
+                this.template = _.template( $("#articles-collection-template").html());
+
+                /*--- binding ---*/
+                _.bindAll(this, 'render');
+                this.collection.bind('change', this.render);
+                this.collection.bind('add', this.render);
+                this.collection.bind('remove', this.render);
+            },
+            render: function() {
+                var renderedContent = this.template({ articles: this.collection.toJSON() });
+                return $(this.el).html(renderedContent);
+                //return this;
+            }
+        });
+
+        blog.ArticlesView2 = Backbone.View.extend({
+            el: $('#calcule'),
+            initialize : function(){
+                this.template = _.template( $("#calcule").html() );
+
+            },
+            render :function(){
+                var calcule = 2 + 2 ;
+                $(this.el).html('<p>'+ calcule +'</p>');
+                return this;
+            }
+        });
+
+
+        var listeArticles = new blog.ArticlesCollection();
+
+        var article1 = new blog.Article({ title : "titre1", content : "contenu1" });
+        var article2 = new blog.Article({ title : "titre2", content : "contenu2" });
+        var article3 = new blog.Article({ title : "titre3", content : "contenu3" });
+
+        listeArticles.add(article1);
+        listeArticles.add(article2);
+        listeArticles.add(article3);
+
+        var articlesView = new blog.ArticlesView({ collection : listeArticles });
+        articlesView.render();
+
+        var ArticlesView2 = new blog.ArticlesView2();
+        ArticlesView2.render();
+
+        listeArticles.add(new blog.Article({ title : "titre4", content : "contenu4" }));
+       // _.without(listeArticles,2);
+        listeArticles.remove(article3);
+        listeArticles.change(article1.set('title','newTitle1'));
+
+    });
+
+
+</script>
+</html>

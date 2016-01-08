@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>-->
+    <script src="banner-template2.js"></script>
+</head>
+<body style="width: 700px;margin-left: auto;margin-right: auto;">
+
+
+
+<div id="template-banner">
+    <ul>
+        <li><img src="http://lorempixel.com/700/200/" /></li>
+        <li><img src="http://lorempixel.com/g/700/200/" /></li>
+        <li><img src="http://lorempixel.com/700/200/abstract/" /></li>
+        <li><img src="http://lorempixel.com/a/700/200/" /></li>
+    </ul>
+</div>
+
+<script>
+    var  bannerTemplate = new BannerTemplate("template-banner");
+</script>
+
+
+
+
+
+
+<script>
+    /*
+    jQuery(document).ready(function(){
+
+
+        $(function(){
+
+            function BannerTemplate(){
+                this.$_carousel_div    =  $('#carrousel');
+                this.$_carousel_ul_li  =  $('#carrousel ul li');
+                this.$_carousel_img    =  $('#carrousel img');
+                this.$_carousel_canvas =  $('#carrousel canvas');
+
+                this.i = 0;
+                this.i_max = 0;
+                this.set_timeout=null;
+            }
+
+            BannerTemplate.prototype.css_init_banner = function(){
+
+                this.$_carousel_div.css({
+                    "position" : "relative",
+                    "height" : "200px",
+                    "width" : "700px",
+                    "margin" : "auto",
+                    "border":"0px solid red",
+                    "outline": "none",
+                    "border": "0 none !important",
+                    "-webkit-user-select": "none",
+                    "-html-user-select": "none",
+                    "-moz-user-select": "none",
+                    "-o-user-select": "none",
+                    "user-select": "none"
+                });
+                this.$_carousel_ul_li.css({
+                    "position" : "absolute",
+                    "top" : "0",
+                    "left" : "0",
+                    "list-style-type":"none",
+                    "border":"0px solid red"
+                });
+                this.$_carousel_img.css({
+                    "height" : "200px",
+                    "width" : "0px",
+                });
+                this.$_carousel_canvas.css({
+                    "outline": "none",
+                    "border": "0 none !important"
+                });
+            };
+
+
+
+            BannerTemplate.prototype.button_Banner_Prec = function(){
+                //var $_div_carrousel_button = $('#carrousel')
+                var $_div_button_prec_in_image =
+                        '<div '+
+                        'style="margin-top:50px; margin-left:-110px; position:absolute">' +
+                        '<canvas id="button_carrousel_prec" height="100" width="150"' +
+                        '</canvas>' +
+                        '</div>' ;
+
+                this.$_carousel_div.append($_div_button_prec_in_image);
+
+
+                // Draw a circle
+                var ctx = $('#button_carrousel_prec')[0].getContext('2d');
+                ctx.beginPath();
+                ctx.moveTo(50,50);
+                ctx.lineTo(100,75);
+                ctx.lineTo(100,25);
+                ctx.fillStyle = "rgba(0,0,255,0.3)";
+                ctx.fill();
+                var that = this;
+                var hide_element_med = function() {
+                    that.hide_element();
+                }
+                var show_element_prec_med = function() {
+                    that.show_element_precedent();
+                }
+
+                $('#button_carrousel_prec').on('click', function() {
+                    hide_element_med(this.i, this.i_max);
+                    show_element_prec_med(this.i,this.i_max);
+                });
+            };
+
+
+
+            BannerTemplate.prototype.button_Banner_Next = function(){
+                var $_div_button_next_in_image =
+                        '<div style="margin-top:50px; margin-left:710px; position:absolute">' +
+                        '<canvas id="button_carrousel_next" height="100" width="150"' +
+                        '</canvas>' +
+                        '</div>' ;
+
+                // $_div_carrousel_button.after($_div_button_next_in_image);
+                $('#carrousel').append($_div_button_next_in_image);
+
+                var ctx = $('#button_carrousel_next')[0].getContext('2d');
+                ctx.beginPath();
+                ctx.moveTo(50,50);
+                ctx.lineTo(-0,75);
+                ctx.lineTo(-0,25);
+                ctx.fillStyle = "rgba(0,0,255,0.3)";
+                ctx.fill();
+
+                var that = this;
+                var hide_element_med = function() {
+                    that.hide_element();
+                }
+                var show_element_next_med = function() {
+                    that.show_element_next();
+                }
+
+                $('#button_carrousel_next').on('click', function() {
+                    hide_element_med(this.i, this.i_max);
+                    show_element_next_med(this.i, this.i_max);
+                });
+            };
+
+
+            BannerTemplate.prototype.number_img_banner = function(){
+                console.log("==  number_img_banner == ");
+                var count = 0;
+                $('#carrousel img').each(function(){
+                    // console.log( $('img').eq(count).attr('src') );
+                    if (  $('img').eq(count).attr('src') != null  )
+                    {
+                        $('img').eq(count).hide();                // Hide element
+                        count++;                                  // count element on the DOM
+                    }
+                });
+                this.i_max = count - 1;
+                this.i = 0;
+               // console.log("max = "+this.i_max);
+               // console.log("i = "+this.i);
+
+            };
+
+            BannerTemplate.prototype.init_banner = function(){
+                this.hide_element();
+                this.show_element_next( );
+                this.change_image( );
+            };
+
+
+            BannerTemplate.prototype.hide_element = function(){
+                if ( this.i == -1) { this.i = this.i_max; }
+                else{ this.i = this.i; }
+                $('img').eq(this.i).hide().animate({
+                    width : '0px',
+                    height: '200px'
+                }, 0);
+                console.log ( " je cache cet element = "+ this.i);
+            };
+
+            BannerTemplate.prototype.show_element_next = function()
+            {
+                if (this.i == this.i_max) {
+                    this.i = 0;
+                }
+                else {
+                    this.i = this.i + 1;
+                }
+
+                $('img').eq(this.i).show().animate({
+                    width: '700px',
+                    height: '200px'
+                }, 1500);
+
+                console.log(" j'affiche  cet element = " +  this.i);
+                clearTimeout(this.set_timeout);
+                this.change_image();
+
+            };
+
+            BannerTemplate.prototype.show_element_precedent = function()
+            {
+                if ( this.i == 0){
+                    this.i=this.i_max;
+                }
+                else{
+                    this.i =  this.i - 1;
+                }
+                $('img').eq(this.i).css({
+                    "height" : "200px",
+                    "left" : "0"
+                });
+
+                $('img').eq( this.i).show().animate({
+                    width : '700px',
+                    height: '200px'
+                }, 1500);
+
+                console.log ( " j'afficge  cet element = "+  this.i);
+                clearTimeout(this.set_timeout);
+                this.change_image();
+            };
+
+
+            BannerTemplate.prototype.change_image = function()
+            {
+                var that = this;
+
+                var hide_element_med = function() {
+                    that.hide_element();
+                }
+
+                var show_element_next_med = function() {
+                    that.show_element_next();
+                }
+                var change_image_med = function() {
+                    that.change_image();
+                }
+                this.set_timeout =  setTimeout(function(){
+                    console.log("---");
+                    hide_element_med();
+                    show_element_next_med();
+                    change_image_med();
+
+                }, 5000);
+            };
+
+
+
+
+        var  bannerTemplate = new BannerTemplate();
+
+        bannerTemplate.css_init_banner();
+        bannerTemplate.button_Banner_Prec();
+        bannerTemplate.button_Banner_Next();
+        bannerTemplate.number_img_banner();
+        bannerTemplate.init_banner();
+
+        });
+
+    });
+*/
+</script>
+</body>
+</html>

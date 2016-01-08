@@ -1,0 +1,55 @@
+/* CSS */
+
+/* HOME */
+.bloc_interface{
+	width: 300px;
+	height: 350px;
+
+	border: 2px solid #E4E4E4;
+	float: left;
+	margin-right: 30px;
+	margin-bottom: 20px;
+
+	padding: 5px;
+
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+
+	background-color: #E4E4E4;
+
+
+}
+
+.title{
+	font-size: 25px;
+	color:  #3366CC;
+}
+
+.borderImage{
+	border-radius:10px;
+}
+
+/* Comments */
+.bloc_interface_comments{
+	width: 400px;
+	height: auto;
+
+	border: 2px solid #E4E4E4;
+	float: left;
+	margin-right: 30px;
+	margin-bottom: 20px;
+
+	padding: 5px;
+
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+
+	background-color: #F8F8F8;
+
+}
+.username_textFormated{
+	font-size: 15px;
+	color:  #3366CC;
+}

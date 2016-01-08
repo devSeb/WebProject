@@ -1,0 +1,50 @@
+<html>
+<head>
+<title> Page </title>
+</head>
+
+<body>
+
+<h1>Ma totolist </h1>
+
+<br>
+<ul>
+<%
+
+    for(var i = 0 ; i <= todolist.length-1 ; i++) 
+      {
+      	if ( todolist[i] != null)
+      	{
+    %>
+
+	    <li>
+	    <a href='/exo1/index/delete/<%= i %>' > ✘ </a>
+	    <%= todolist[i] %>
+	    </li>
+
+    <% 
+		}
+     }
+    %>
+</ul>
+
+
+<br>
+<br>
+
+<ul>
+ <% todolist.forEach(function(todo, index) { %>
+     <li><a href='/exo1/index/delete/<%= i %>'>✘</a> <%= todo %></li>
+ <% }); %>
+</ul>
+
+
+
+<form action="/exo1/index/add/" method="post">
+	<label>Que dois-je faire ? </label>
+	<input type="text" name="element" id="element"/> <br>
+	<input type="submit"> Valider </input>
+</form>
+
+</body>
+</html>

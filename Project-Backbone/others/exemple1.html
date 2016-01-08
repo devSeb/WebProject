@@ -1,0 +1,44 @@
+<html>
+<head>
+    <title> test </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script src="http://documentcloud.github.io/underscore/underscore-min.js"></script>
+    <script src="http://backbonejs.org/backbone-min.js"></script>
+</head>
+<body>
+<span id='result1'></span>
+<br/>
+<span id='result2'></span>
+
+
+<script>
+    var Article = Backbone.Model.extend({});
+
+
+
+    $(function() {
+
+        var article = new Article({
+            title: 'New Article'
+        });
+        $('#result1').html(article.get('title'));
+        article.set('title', 'New Title');
+        $('#result2').html(article.get('title'));
+
+        var objets = new Objet({
+            titre: 'objet1'
+        },{
+            titre : 'objet2'
+        },{
+            titre : 'objet3'
+        });
+
+        objets.push(objets.shift());
+        objets.models = objets.shuffle();
+
+    });
+
+
+</script>
+</body>
+</html>
