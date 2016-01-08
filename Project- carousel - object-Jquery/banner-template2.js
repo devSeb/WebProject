@@ -9,11 +9,10 @@
         function BannerTemplate(_template_banner){
 
 
-            this.carousel_div    =  document.getElementById(_template_banner);
-            this.carousel_ul    =   this.carousel_div.getElementsByTagName('ul');
-            this.carousel_ul_li  =  this.carousel_div.getElementsByTagName('li');
-            this.carousel_img    =  this.carousel_div.getElementsByTagName('img');
-            this.carousel_canvas =  this.carousel_div.getElementsByTagName('canvas');
+            this.$_carousel_div    =  $('#'+_template_banner);
+            this.$_carousel_ul_li  =  $('#'+_template_banner+' ul li');
+            this.$_carousel_img    =  $('#'+_template_banner+' img');
+            this.$_carousel_canvas =  $('#'+_template_banner+' canvas');
 
             this.i = 0;
             this.i_max = 0;
@@ -26,10 +25,9 @@
         /* Init CSS */
         BannerTemplate.prototype.css_init_banner = function(){
 
-            /*
             if(window.matchMedia("(min-width:800px)").matches) {
 
-                this.carousel_div.css({
+                this.$_carousel_div.css({
                     "position": "relative",
                     "height": "200px",
                     "width": "700px",
@@ -46,9 +44,9 @@
                 });
             }
 
-
+            /*Responsive for small screen */
             if(window.matchMedia("(max-width:500px)").matches) {
-                this.carousel_div.css({
+                this.$_carousel_div.css({
                     "position": "relative",
                     "height": "200px",
                     "width": "400px",
@@ -65,59 +63,42 @@
                 });
             }
 
-            this.carousel_ul_li.css({
+            this.$_carousel_ul_li.css({
                 "position" : "absolute",
                 "top" : "0",
                 "left" : "0",
                 "list-style-type":"none",
                 "border":"0px solid red"
             });
-            this.carousel_img.css({
+            this.$_carousel_img.css({
                 "height" : "200px",
                 "width" : "0px",
             });
-            this.carousel_canvas.css({
+            this.$_carousel_canvas.css({
                 "outline": "none",
                 "border": "0 none !important"
             });
 
             //call method
-            */
-
-            var sheet = document.createElement('style')
-            sheet.innerHTML = "#template-banner { position:relative; height:200px; width :700px; margin-left:auto; margin-right:auto" +
-                                                 " outline:none; -webkit-user-select:none; -html-user-select:none; -moz-user-select:none" +
-                                                 " -o-user-select:none; user-select:none ;}" +
-                              "#template-banner ul li {position:relative; top:0; left :0; list-style-type:none;}" +
-                              "#template-banner img {height:200px; width:0px;}" +
-                              "#template-banner canvas {outline:none;border: 0 none !important}";
-            document.body.appendChild(sheet);
-
-
             this.button_Banner_Prec();
         };
 
 
 
         BannerTemplate.prototype.button_Banner_Prec = function(){
-
-            var div_button_prec_in_image = document.createElement('div')
-            div_button_prec_in_image.innerHTML = '<canvas id="button_carrousel_prec" height="100" width="150" </canvas>';
-
-            /*
-            var div_button_prec_in_image =
+            //var $_div_carrousel_button = $('#carrousel')
+            var $_div_button_prec_in_image =
                 '<div '+
                 'style="margin-top:50px; margin-left:-110px; position:absolute">' +
                 '<canvas id="button_carrousel_prec" height="100" width="150"' +
                 '</canvas>' +
                 '</div>' ;
-              */
 
-            //alert(document.getElementById("template-banner"));
-            document.getElementById("template-banner").appendChild(div_button_prec_in_image);
+            this.$_carousel_div.append($_div_button_prec_in_image);
+
 
             // Draw a circle
-            var ctx = document.getElementById('button_carrousel_prec')[0].getContext('2d');
+            var ctx = $('#button_carrousel_prec')[0].getContext('2d');
             ctx.beginPath();
             ctx.moveTo(50,50);
             ctx.lineTo(100,75);
@@ -132,7 +113,7 @@
                 that.show_element_precedent();
             }
 
-            document.getElementById('button_carrousel_prec').addEventListener('click', function() {
+            $('#button_carrousel_prec').on('click', function() {
                 hide_element_med(this.i, this.i_max);
                 show_element_prec_med(this.i,this.i_max);
             });
@@ -144,16 +125,16 @@
 
 
         BannerTemplate.prototype.button_Banner_Next = function(){
-            var div_button_next_in_image =
+            var $_div_button_next_in_image =
                 '<div style="margin-top:50px; margin-left:710px; position:absolute">' +
                 '<canvas id="button_carrousel_next" height="100" width="150"' +
                 '</canvas>' +
                 '</div>' ;
 
             // $_div_carrousel_button.after($_div_button_next_in_image);
-            this.carousel_div.appendChild(div_button_next_in_image);
+            this.$_carousel_div.append($_div_button_next_in_image);
 
-            var ctx = document.getElementById('button_carrousel_next')[0].getContext('2d');
+            var ctx = $('#button_carrousel_next')[0].getContext('2d');
             ctx.beginPath();
             ctx.moveTo(50,50);
             ctx.lineTo(-0,75);
@@ -169,7 +150,7 @@
                 that.show_element_next();
             }
 
-            document.getElementById('button_carrousel_next').addEventListener('click', function() {
+            $('#button_carrousel_next').on('click', function() {
                 hide_element_med(this.i, this.i_max);
                 show_element_next_med(this.i, this.i_max);
             });
@@ -182,22 +163,20 @@
         BannerTemplate.prototype.number_img_banner = function(){
             console.log("==  number_img_banner == ");
             var count = 0;
-            this.carousel_img.each(function(){
-                if ( this.carousel_img[count].getAttribute('src') != null  )
+            this.$_carousel_img.each(function(){
+                if (  $('img').eq(count).attr('src') != null  )
                 {
-                    /*
                     if(window.matchMedia("(max-width:500px)").matches) {
                         $('img').eq(count).width(400);
                     }
-                    */
-                    this.carousel_img[count].hide();                // Hide element
+                    $('img').eq(count).hide();                // Hide element
                     count++;                                  // count element on the DOM
                 }
             });
             this.i_max = count - 1;
             this.i = 0;
-            console.log("max = "+this.i_max);
-            console.log("i = "+this.i);
+             console.log("max = "+this.i_max);
+             console.log("i = "+this.i);
 
             //call method
             this.init_banner();
@@ -214,7 +193,7 @@
         BannerTemplate.prototype.hide_element = function(){
 
             this.i = (this.i == -1) ? this.i = this.i_max : this.i = this.i;
-            this.carousel_img[this.i].hide().animate({
+            $('img').eq(this.i).hide().animate({
                 width : '0px',
                 height: '200px'
             }, 0);
@@ -224,12 +203,11 @@
         BannerTemplate.prototype.show_element_next = function() {
 
             this.i = (this.i == this.i_max) ? 0 : this.i = this.i + 1;
-            /*
-            this.carousel_img[this.i].show().animate({
+            this.$_carousel_img.eq(this.i).show().animate({
                 width: '700px',
                 height: '200px'
             }, 1500);
-            */
+
             console.log(" j'affiche  cet element = " +  this.i);
             clearTimeout(this.set_timeout);
             this.change_image();
@@ -239,14 +217,16 @@
         BannerTemplate.prototype.show_element_precedent = function()
         {
             this.i = (this.i == 0) ? this.i_max : this.i =  this.i - 1;
-            this.carousel_img[this.i].style.height ='200px';
-            this.carousel_img[this.i].style.left ='0';
-            /*
+            $('img').eq(this.i).css({
+                "height" : "200px",
+                "left" : "0"
+            });
+
             $('img').eq( this.i).show().animate({
                 width : '700px',
                 height: '200px'
             }, 1500);
-            */
+
             console.log ( " j'afficge  cet element = "+  this.i);
             clearTimeout(this.set_timeout);
             this.change_image();
