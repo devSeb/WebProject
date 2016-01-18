@@ -1,0 +1,60 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>React Tutorial</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+  </head>
+
+  <body>
+
+    <div id="form_id_view"></div>
+
+    <!-- <script type="text/babel" src="scripts/example.js"></script>-->
+    <script type="text/babel">
+    
+    var Form_view = React.createClass({
+       getInitialState: function(){
+        return {
+            nom : "",
+            age : ""
+        }  
+      },
+      getChangeNom: function(){
+        console.log("state of name =" + this.state.nom );
+        this.setState({nom : this.refs.name});
+      },
+      getChangeAge: function(){
+         console.log("state of age =" + this.state.age );
+        this.setState({age : this.state.age});
+        this.getController();
+      },
+      getController : function(){
+          console.log("value = "+ this.state.age);
+      },
+      render: function(){
+        return (
+            <div className="Form_view">
+            <form>
+              <input type="text" onChange={this.getChangeNom} ref="name" placeholder="your name" />
+              <input type="text" placeholder ="your age" />
+              <input type="submit" value="Post" />
+            </form>
+            </div>
+        );
+      }
+    });
+
+    
+    ReactDOM.render(<Form_view />, document.getElementById('form_id_view'));
+
+
+
+    </script>
+  </body>
+</html>
